@@ -89,4 +89,10 @@
 @media (max-width: 768px) {
   .stats-row { grid-template-columns: 1fr; }
   .dashboard-grid { grid-template-columns: 1fr; }
+  .page-header { flex-direction: column; gap: 10px; }
+}
+
+@media (max-width: 480px) {
+  .page-title { font-size: 1.3rem; }
+  .stat-card { padding: 1rem 1.1rem; }
 }

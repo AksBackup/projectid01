@@ -129,8 +129,113 @@
   min-height: 100vh;
 }
 
+/* ── Mobile top navbar (hidden on desktop) ────────────── */
+.topbar {
+  display: none;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Hamburger menu button */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  width: 34px;
+  height: 34px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+.menu-toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+.menu-toggle.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.menu-toggle.active span:nth-child(2) { opacity: 0; }
+.menu-toggle.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* Dim background behind the open drawer */
+.sidebar-overlay {
+  display: none;
+}
+
+/* ── Small screens: sidebar becomes a slide-in drawer, ─────
+   topbar replaces it at the top with a menu button ──────── */
 @media (max-width: 768px) {
   .layout { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
-  .main-content { padding: 1.25rem; }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    padding: 0 1rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    z-index: 300;
+  }
+
+  .menu-toggle { display: flex; }
+
+  /* Sidebar becomes an off-canvas drawer instead of a fixed column */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    max-width: 80vw;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 400;
+    box-shadow: 8px 0 30px rgba(0,0,0,0.45);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 350;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .sidebar-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Push content below the fixed topbar */
+  .main-content {
+    padding: 1.25rem;
+    padding-top: calc(56px + 1.25rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 1rem;
+    padding-top: calc(56px + 1rem);
+  }
+  .sidebar { width: 240px; }
 }

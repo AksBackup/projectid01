@@ -215,3 +215,10 @@
   background: rgba(255,255,255,0.1);
   border-radius: 10px;
 }
+
+@media (max-width: 600px) {
+  .users-toolbar { flex-direction: column; align-items: stretch; }
+  .search-input { width: 100%; }
+  .user-modal { padding: 16px; }
+  .user-info-grid { grid-template-columns: 1fr; }
+}

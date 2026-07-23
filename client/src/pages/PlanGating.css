@@ -450,3 +450,11 @@
   .pg-limits-grid { grid-template-columns: 1fr; }
   .pg-summary { grid-template-columns: repeat(2, 1fr); }
 }
+
+@media (max-width: 600px) {
+  .pg-summary { grid-template-columns: 1fr; }
+  .pg-tabs { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+  .pg-tab { white-space: nowrap; }
+  .pg-screen-row { flex-wrap: wrap; }
+  .plan-pill-group { flex-wrap: wrap; }
+}

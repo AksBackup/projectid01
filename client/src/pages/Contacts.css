@@ -68,3 +68,9 @@
   margin-top: 1rem; padding-top: 1rem;
   border-top: 1px solid var(--border);
 }
+
+@media (max-width: 600px) {
+  .filter-tabs { flex-wrap: wrap; }
+  .contact-preview { max-width: 160px; }
+  .pagination { flex-wrap: wrap; gap: 8px; }
+}

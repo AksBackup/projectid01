@@ -396,3 +396,7 @@
   .field-row { grid-template-columns: 1fr; }
   .bl-controls .btn:not(.btn-danger) { display: none; }
 }
+
+@media (max-width: 480px) {
+  .banners-right { flex-direction: column; }
+}
