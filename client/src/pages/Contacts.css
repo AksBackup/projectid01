@@ -1,0 +1,70 @@
+.contacts-page {}
+
+.filter-tabs {
+  display: flex; gap: 4px; margin-bottom: 1.25rem;
+}
+.filter-tab {
+  padding: 7px 16px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.filter-tab:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+.filter-tab.active {
+  background: rgba(200,169,110,0.12);
+  border-color: var(--border-gold);
+  color: var(--gold);
+}
+
+.row-new td:first-child { border-left: 2px solid var(--info); }
+
+.contact-name    { font-weight: 600; color: var(--text); font-size: 0.875rem; }
+.contact-email   { font-size: 0.75rem; color: var(--text-3); margin-top: 2px; }
+.contact-subject { font-size: 0.875rem; color: var(--text); }
+.contact-preview { font-size: 0.75rem; color: var(--text-3); margin-top: 2px; max-width: 280px; }
+
+.row-actions { display: flex; gap: 6px; }
+
+.pagination {
+  display: flex; align-items: center; gap: 12px;
+  justify-content: center;
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+}
+.page-info { font-size: 0.8rem; color: var(--text-2); }
+
+/* Reply modal */
+.original-msg {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 1.25rem;
+}
+.original-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 6px; font-weight: 600; }
+.original-body  { font-size: 0.875rem; color: var(--text-2); line-height: 1.65; white-space: pre-wrap; }
+
+.reply-section { margin-bottom: 1.25rem; }
+.reply-toolbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px;
+}
+.reply-label { font-size: 0.8rem; font-weight: 600; color: var(--text-2); }
+.reply-textarea { min-height: 200px; font-size: 0.875rem; line-height: 1.7; }
+
+.prev-replies { margin-bottom: 1.25rem; }
+.prev-label  { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 8px; font-weight: 600; }
+.prev-reply  { background: var(--surface2); border-radius: var(--radius); padding: 10px 12px; margin-bottom: 6px; }
+.prev-meta   { font-size: 0.72rem; color: var(--text-3); margin-bottom: 4px; }
+.prev-body   { font-size: 0.82rem; color: var(--text-2); white-space: pre-wrap; line-height: 1.6; }
+
+.modal-footer {
+  display: flex; justify-content: flex-end; gap: 10px;
+  margin-top: 1rem; padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}

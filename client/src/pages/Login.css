@@ -1,0 +1,99 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.login-bg { position: absolute; inset: 0; pointer-events: none; }
+
+.login-orb {
+  position: absolute;
+  top: 20%; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,169,110,0.10) 0%, transparent 65%);
+  filter: blur(40px);
+}
+
+.login-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(200,169,110,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,169,110,0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+}
+
+.login-card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+}
+
+.login-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 2rem;
+}
+.login-mark {
+  color: var(--gold);
+  font-size: 1.1rem;
+  animation: spin-slow 12s linear infinite;
+  display: inline-block;
+}
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+
+.login-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.login-tag {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(200,169,110,0.12);
+  border: 1px solid var(--border-gold);
+  padding: 2px 8px;
+  border-radius: 100px;
+}
+
+.login-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.login-sub {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.login-google {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.login-note {
+  font-size: 0.75rem;
+  color: var(--text-3);
+  line-height: 1.5;
+}

@@ -1,0 +1,44 @@
+.subscribers-page {}
+
+.source-items {
+  display: flex; gap: 2rem; flex-wrap: wrap;
+}
+.source-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.82rem; color: var(--text-2);
+}
+.source-dot   { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.source-label { text-transform: capitalize; }
+.source-count { font-weight: 700; color: var(--text); }
+
+.sub-email { font-size: 0.875rem; font-weight: 500; }
+
+.source-pill {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-2);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.pagination {
+  display: flex; align-items: center; gap: 12px;
+  justify-content: center;
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+}
+.page-info { font-size: 0.8rem; color: var(--text-2); }
+
+.modal-footer {
+  display: flex; justify-content: flex-end; gap: 10px;
+  margin-top: 1.25rem; padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}

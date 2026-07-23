@@ -1,0 +1,217 @@
+.users-page {}
+
+.users-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.search-input { flex-shrink: 0; }
+
+.plan-filters {
+  display: flex; gap: 4px; flex-wrap: wrap;
+}
+.filter-tab {
+  padding: 7px 14px;
+  border-radius: 100px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.filter-tab:hover { color: var(--text); }
+.filter-tab.active {
+  background: rgba(200,169,110,0.12);
+  border-color: var(--border-gold);
+  color: var(--gold);
+}
+
+.sort-select { background: var(--surface2); color: var(--text); border-color: var(--border); }
+
+/* User cell */
+.user-row { display: flex; align-items: center; gap: 10px; }
+.user-thumb {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  object-fit: cover; flex-shrink: 0;
+}
+.user-thumb-placeholder {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--surface2);
+  color: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 700; flex-shrink: 0;
+}
+.user-dname  { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+.user-uemail { font-size: 0.75rem; color: var(--text-3); }
+.user-org    { font-size: 0.7rem; color: var(--gold-dark); margin-top: 2px; }
+
+/* Token cell */
+.token-cell { display: flex; align-items: baseline; gap: 3px; font-family: var(--mono); }
+.token-used  { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+.token-sep   { color: var(--text-3); font-size: 0.75rem; }
+.token-alloc { font-size: 0.75rem; color: var(--text-3); }
+
+.table-footer {
+  padding: 0.75rem 1rem;
+  font-size: 0.78rem;
+  color: var(--text-3);
+  border-top: 1px solid var(--border);
+  text-align: right;
+}
+/* Actions column */
+.actions-cell {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 0.72rem;
+  border-radius: 8px;
+}
+
+/* Restrict button states */
+.btn-warning {
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #f59e0b;
+}
+.btn-warning:hover {
+  background: rgba(245, 158, 11, 0.1);
+}
+
+/* Delete button */
+.btn-danger {
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  color: #dc2626;
+}
+.btn-danger:hover {
+  background: rgba(220, 38, 38, 0.1);
+}
+/* Modal backdrop */
+.user-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 9999;
+}
+
+/* Modal container */
+.user-modal {
+  width: min(1000px, 96vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border-radius: 20px;
+  box-shadow: 0 30px 100px rgba(0,0,0,0.5);
+  padding: 20px;
+  animation: modalFade 0.2s ease;
+}
+
+@keyframes modalFade {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to   { opacity: 1; transform: none; }
+}
+.user-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.user-modal-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.user-modal-sub {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  margin-top: 3px;
+}
+.user-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.user-info-card {
+  background: rgba(127,127,127,0.08);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.user-info-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text-2);
+}
+
+.user-info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.78rem;
+}
+
+.user-info-key {
+  color: var(--text-3);
+}
+
+.user-info-val {
+  color: var(--text);
+  text-align: right;
+  word-break: break-word;
+}
+.user-json {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(127,127,127,0.12);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+.badge-status {
+  font-size: 0.7rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.badge-active {
+  background: rgba(34,197,94,0.15);
+  color: #22c55e;
+}
+
+.badge-restricted {
+  background: rgba(220,38,38,0.15);
+  color: #dc2626;
+}
+/* hover effect for table rows */
+.table-wrap tbody tr:hover {
+  background: rgba(255,255,255,0.02);
+  transition: var(--transition);
+}
+
+/* subtle scroll styling */
+.user-modal::-webkit-scrollbar {
+  width: 6px;
+}
+.user-modal::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 10px;
+}
