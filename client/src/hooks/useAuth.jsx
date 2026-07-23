@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-
+const API_URL = import.meta.env.VITE_API_URL;
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -11,7 +11,7 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('admin_token');
     if (!token) { setLoading(false); return; }
 
-    fetch('/api/auth/me', { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API_URL}/api/auth/me`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(data => {
         if (data.user) setUser(data.user);
@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = useCallback(async (googleCredential) => {
-    const res  = await fetch('/api/auth/google', {
+    const res  = await fetch(`${API_URL}/api/auth/google`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ credential: googleCredential }),
@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
   // Authenticated fetch — auto-attaches JWT header
   const apiFetch = useCallback(async (path, opts = {}) => {
     const token = localStorage.getItem('admin_token');
-    const res   = await fetch(path, {
+    const res = await fetch(`${API_URL}${path}`, {
       ...opts,
       headers: {
         'Content-Type': 'application/json',
