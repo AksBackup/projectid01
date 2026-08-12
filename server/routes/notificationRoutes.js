@@ -1,7 +1,14 @@
 const express = require('express');
+const requireAuth = require('../middleware/auth');
 
 module.exports = function (db, admin) {
   const router = express.Router();
+
+  // SECURITY FIX: no auth check existed here before -- anyone could
+  // read notification history, broadcast to every user, or push an
+  // arbitrary notification to any single uid with zero login. Same class
+  // of bug fixed on the main payment server's /notifications/* routes.
+  router.use(requireAuth);
 
   // GET notification logs
   router.get('/log', async (req, res) => {

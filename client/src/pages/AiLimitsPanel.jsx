@@ -2,10 +2,7 @@
 
 import React from "react";
 import { useState, useEffect } from "react";
-// import dotev from "dotenv";
-// dotev.config();
-// const adminApiKey1 = process.env.REACT_APP_ADMIN_API_KEY || "";
-// const serverUrl1 = process.env.REACT_APP_SERVER_URL || "";
+import { useAuth } from "../hooks/useAuth.jsx";
 
 const PLANS = [
   
@@ -13,7 +10,12 @@ const PLANS = [
   { key: "premium_images",  label: "Premium",  color: "#E8874A", desc: "Premium subscribers" },
 ];
 
-export default function AiLimitsPanel({serverUrl = "", adminApiKey = "" }) {
+// NOTE: same fix as Aimodel.jsx — this used to send an unwired "x-admin-key"
+// header (the prop was never actually passed from App.jsx) against a server
+// route that had no auth check at all. Both sides now use the real JWT
+// session via apiFetch(), matching every other admin page.
+export default function AiLimitsPanel() {
+  const { apiFetch } = useAuth();
   const [limits,  setLimits]  = useState({ standard_images: 20, premium_images: 100 });
   const [loading, setLoading] = useState(true);
   const [dirty,   setDirty]   = useState(false);
@@ -26,11 +28,12 @@ export default function AiLimitsPanel({serverUrl = "", adminApiKey = "" }) {
   };
 
   useEffect(() => {
-    fetch(`${serverUrl}/api/images-limits`)
+    apiFetch("/api/images-limits")
       .then(r => r.json())
       .then(d => { setLimits(d); setLoading(false); })
       .catch(() => setLoading(false));
-  }, [serverUrl]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChange = (key, val) => {
     const n = Math.max(0, parseInt(val) || 0);
@@ -41,9 +44,8 @@ export default function AiLimitsPanel({serverUrl = "", adminApiKey = "" }) {
   const save = async () => {
     setSaving(true);
     try {
-      const res = await fetch(`${serverUrl}/api/images-limits`, {
+      const res = await apiFetch("/api/images-limits", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "x-admin-key": adminApiKey },
         body: JSON.stringify(limits),
       });
       if (!res.ok) throw new Error((await res.json()).error);

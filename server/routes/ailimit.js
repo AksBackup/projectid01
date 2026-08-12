@@ -1,6 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const requireAuth = require("../middleware/auth");
 const admin = require("../firebase");
+
+// SECURITY FIX: no auth check existed here before -- anyone could read/
+// write AI image-generation limits. Matches the pattern every other admin
+// route already uses.
+router.use(requireAuth);
 
 const db = admin.firestore();
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth.jsx";
 
 const DEFAULT_MODELS = [
   {
@@ -39,11 +40,17 @@ const DEFAULT_MODELS = [
   },
 ];
 
-export default function AiModelsPanel({
-  serverUrl = "",
-  adminApiKey = "",
-}) {
+// NOTE: this component previously took `serverUrl`/`adminApiKey` props and
+// called the API directly with an `x-admin-key` header. Neither prop was
+// ever actually passed in from App.jsx (the route renders <AiModelsPanel />
+// with no props at all), so that header was always empty — this only
+// "worked" because the server route had no auth check either. Both are
+// fixed now: this uses the same apiFetch() (real JWT session) every other
+// admin page already uses, and the server route requires it.
+export default function AiModelsPanel() {
+  const { apiFetch } = useAuth();
   const [models, setModels] = useState(DEFAULT_MODELS);
+  const [agentModeProviderId, setAgentModeProviderId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [dirty, setDirty] = useState(false);
@@ -58,19 +65,21 @@ export default function AiModelsPanel({
   };
 
   useEffect(() => {
-    fetch(`${serverUrl}/api/ai-models`)
+    apiFetch("/api/ai-models")
       .then((r) => r.json())
       .then((d) => {
         if (d.models) {
           setModels(d.models);
         }
+        setAgentModeProviderId(d.agentModeProviderId ?? null);
 
         setLoading(false);
       })
       .catch(() => {
         setLoading(false);
       });
-  }, [serverUrl]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const updateModel = (index, field, value) => {
     const updated = [...models];
@@ -85,14 +94,11 @@ export default function AiModelsPanel({
     setSaving(true);
 
     try {
-      const res = await fetch(`${serverUrl}/api/ai-models`, {
+      const res = await apiFetch("/api/ai-models", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-admin-key": adminApiKey,
-        },
         body: JSON.stringify({
           models,
+          agentModeProviderId,
         }),
       });
 
@@ -152,6 +158,44 @@ export default function AiModelsPanel({
           {saving ? "Saving..." : "Save Models"}
         </button>
       </div>
+
+      {!loading && (
+        <div style={{ ...s.card, borderColor: "#334155", marginBottom: 20 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 15 }}>Agent Mode</div>
+              <div style={{ color: "#64748B", fontSize: 12.5, marginTop: 2 }}>
+                Which model powers Agent Mode's tool-calling (creating leads, tasks, invoices, etc). Premium plan only, regardless of which model is chosen here.
+              </div>
+            </div>
+          </div>
+          <select
+            value={agentModeProviderId ?? ""}
+            onChange={(e) => {
+              setAgentModeProviderId(e.target.value || null);
+              setDirty(true);
+            }}
+            style={{
+              marginTop: 10,
+              width: "100%",
+              maxWidth: 320,
+              background: "#0B1220",
+              color: "#F1F5F9",
+              border: "1px solid #1E293B",
+              borderRadius: 8,
+              padding: "8px 10px",
+              fontSize: 13,
+            }}
+          >
+            <option value="">— Agent Mode disabled —</option>
+            {models.filter((m) => m.enabled).map((m) => (
+              <option key={m.id} value={m.id}>
+                {m.emoji} {m.displayName} ({m.modelId})
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
 
       {loading ? (
         <div style={s.loading}>

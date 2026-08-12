@@ -3,6 +3,9 @@ const express  = require('express');
 const mongoose = require('mongoose');
 const cors     = require('cors');
 const path     = require('path');
+const admin    = require('./firebase');
+
+const db = admin.firestore();
 
 const authRouter        = require('./routes/auth');
 const contactsRouter    = require('./routes/contacts');
@@ -11,7 +14,11 @@ const usersRouter       = require('./routes/users');
 const bannersRouter     = require('./routes/banners');
 const planGatingRouter  = require('./routes/planGating');
 const pricingRouter     = require('./routes/pricing');
-const notificationRouter = require('./routes/notificationRoutes');
+// notificationRoutes exports a FACTORY — (db, admin) => router — and must be
+// called with real arguments. The previous code passed the bare factory
+// function straight to app.use(), which Express would call as (req, res),
+// throwing on every request to /api/notifications/*. Fixed below.
+const notificationRouter = require('./routes/notificationRoutes')(db, admin);
 const ailimitRouter     = require('./routes/ailimit');
 const aiModelRouter     = require('./routes/aiModel');
 const app  = express();
