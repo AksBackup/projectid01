@@ -21,6 +21,9 @@ const PRICE_KEYS = [
   'premium_monthly',
   'premium_annual',
   'token_pack_price',
+  'website_trial_price',
+  'website_standard_price',
+  'website_pro_price',
 ];
 
 // ── GET /api/pricing ──────────────────────────────────────────────────────────

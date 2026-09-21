@@ -8,6 +8,9 @@ const PRICE_FIELDS = [
   { key: 'premium_monthly',  label: 'Premium — Monthly',   icon: '★', color: '#BF5AF2' },
   { key: 'premium_annual',   label: 'Premium — Annual',    icon: '★', color: '#BF5AF2' },
   { key: 'token_pack_price', label: 'Token Pack',          icon: '⬡', color: '#0A84FF' },
+  { key: 'website_trial_price',    label: 'Website Studio — Trial (3-4 pages)',    icon: '🌐', color: '#10B981' },
+  { key: 'website_standard_price', label: 'Website Studio — Standard (5-6 pages)', icon: '🌐', color: '#10B981' },
+  { key: 'website_pro_price',      label: 'Website Studio — Pro (up to 12 pages)', icon: '🌐', color: '#10B981' },
 ];
 
 function PriceInput({ field, value, onChange }) {
@@ -43,6 +46,9 @@ export default function Pricing() {
     premium_monthly:  '',
     premium_annual:   '',
     token_pack_price: '',
+    website_trial_price:    '',
+    website_standard_price: '',
+    website_pro_price:      '',
   });
   const [loading,  setLoading]  = useState(true);
   const [saving,   setSaving]   = useState(false);

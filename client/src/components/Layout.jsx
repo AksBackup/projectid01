@@ -10,6 +10,7 @@ const NAV = [
   { to: '/users',         icon: '⬡',  label: 'App Users'     },
   { to: '/banners',       icon: '▣',  label: 'Banners'       },
   { to: '/pricing',       icon: '₹',  label: 'Pricing'       },
+  { to: '/website-templates', icon: '🌐', label: 'Website Studio' },
   { to: '/plan-gating',   icon: '🔐', label: 'Plan Gating'   },
   { to: '/notifications', icon: '🔔', label: 'Notifications' },
   { to: '/ai-limits',      icon: '', label: 'AI image Limit'      },
