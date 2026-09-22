@@ -23,6 +23,7 @@ const SCREENS = [
   { key: 'unified_inbox', label: 'Unified Inbox',   cat: 'Communication',   icon: '📥', desc: 'WhatsApp · Instagram · Telegram & more' },
   // Intelligence
   { key: 'ai_chat',       label: 'AI Assistant',    cat: 'Intelligence',    icon: '🤖', desc: 'Smart AI-powered business insights' },
+  { key: 'image_studio',  label: 'Image Studio',    cat: 'Intelligence',    icon: '🖼️', desc: 'AI image generation & editing' },
   { key: 'pdf_analyst',   label: 'PDF Analyst',     cat: 'Intelligence',    icon: '📄', desc: 'AI analysis of business PDFs' },
   // Analytics
   { key: 'reports',       label: 'Reports',         cat: 'Analytics',       icon: '📊', desc: 'Business performance reports' },
