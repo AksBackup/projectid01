@@ -24,8 +24,6 @@ const PRICE_KEYS = [
   'website_trial_price',
   'website_standard_price',
   'website_pro_price',
-  'whatsapp_monthly_price',
-  'whatsapp_annual_price',
 ];
 
 // ── GET /api/pricing ──────────────────────────────────────────────────────────
@@ -77,11 +75,6 @@ router.post('/', async (req, res) => {
       }
       payload[key] = val;
     }
-  }
-  // Base URL of the deployed PHP WhatsApp backend — a string, not a price,
-  // so it's validated/forwarded separately from PRICE_KEYS above.
-  if (req.body.whatsapp_api_base_url !== undefined) {
-    payload.whatsapp_api_base_url = String(req.body.whatsapp_api_base_url).trim();
   }
 
   if (Object.keys(payload).length === 0) {

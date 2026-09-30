@@ -11,8 +11,6 @@ const PRICE_FIELDS = [
   { key: 'website_trial_price',    label: 'Website Studio — Trial (3-4 pages)',    icon: '🌐', color: '#10B981' },
   { key: 'website_standard_price', label: 'Website Studio — Standard (5-6 pages)', icon: '🌐', color: '#10B981' },
   { key: 'website_pro_price',      label: 'Website Studio — Pro (up to 12 pages)', icon: '🌐', color: '#10B981' },
-  { key: 'whatsapp_monthly_price', label: 'WhatsApp Automation — Monthly', icon: '💬', color: '#25D366' },
-  { key: 'whatsapp_annual_price',  label: 'WhatsApp Automation — Annual',  icon: '💬', color: '#25D366' },
 ];
 
 function PriceInput({ field, value, onChange }) {
@@ -51,12 +49,7 @@ export default function Pricing() {
     website_trial_price:    '',
     website_standard_price: '',
     website_pro_price:      '',
-    whatsapp_monthly_price: '',
-    whatsapp_annual_price:  '',
   });
-  // WhatsApp backend URL is a string, not a price — kept separate from
-  // `prices` so it doesn't go through the Number() validation in handleSave.
-  const [whatsappApiBaseUrl, setWhatsappApiBaseUrl] = useState('');
   const [loading,  setLoading]  = useState(true);
   const [saving,   setSaving]   = useState(false);
   const [status,   setStatus]   = useState(null); // { type: 'success'|'error', msg }
@@ -69,7 +62,6 @@ export default function Pricing() {
         const data = await res.json();
         if (res.ok && data.prices) {
           setPrices(prev => ({ ...prev, ...data.prices }));
-          if (data.prices.whatsapp_api_base_url) setWhatsappApiBaseUrl(data.prices.whatsapp_api_base_url);
         }
       } catch (e) {
         console.error('Failed to load pricing:', e);
@@ -100,9 +92,6 @@ export default function Pricing() {
           }
           payload[k] = n;
         }
-      }
-      if (whatsappApiBaseUrl.trim() !== '') {
-        payload.whatsapp_api_base_url = whatsappApiBaseUrl.trim();
       }
 
       if (Object.keys(payload).length === 0) {
@@ -153,23 +142,6 @@ export default function Pricing() {
             ))}
           </div>
 
-          <div className="price-field" style={{ marginTop: 16 }}>
-            <div className="price-field-header">
-              <span className="price-field-icon" style={{ color: '#25D366' }}>💬</span>
-              <label className="price-field-label">WhatsApp Automation — Backend URL</label>
-            </div>
-            <div className="price-field-input-wrap">
-              <input
-                type="text"
-                className="input"
-                value={whatsappApiBaseUrl}
-                onChange={e => { setWhatsappApiBaseUrl(e.target.value); setStatus(null); }}
-                placeholder="https://your-whatsapp-backend-domain.com"
-                style={{ width: '100%' }}
-              />
-            </div>
-          </div>
-
           {status && (
             <div className={`pricing-status ${status.type}`}>
               {status.type === 'success' ? '✓ ' : '✗ '}{status.msg}
@@ -200,10 +172,6 @@ export default function Pricing() {
               <div className="info-row">
                 <span className="info-icon" style={{ color: '#0A84FF' }}>⬡</span>
                 <span>Token pack price is used for add-on token purchases. Leave a field blank to skip updating it.</span>
-              </div>
-              <div className="info-row">
-                <span className="info-icon" style={{ color: '#25D366' }}>💬</span>
-                <span>The WhatsApp backend URL points the app at your deployed PHP WhatsApp service — change it here any time it moves, no app update needed.</span>
               </div>
             </div>
           </div>
