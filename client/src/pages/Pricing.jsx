@@ -11,6 +11,9 @@ const PRICE_FIELDS = [
   { key: 'website_trial_price',    label: 'Website Studio — Trial (3-4 pages)',    icon: '🌐', color: '#10B981' },
   { key: 'website_standard_price', label: 'Website Studio — Standard (5-6 pages)', icon: '🌐', color: '#10B981' },
   { key: 'website_pro_price',      label: 'Website Studio — Pro (up to 12 pages)', icon: '🌐', color: '#10B981' },
+  { key: 'app_trial_price',    label: 'App Studio — Trial',    icon: '📱', color: '#6366F1' },
+  { key: 'app_standard_price', label: 'App Studio — Standard', icon: '📱', color: '#6366F1' },
+  { key: 'app_pro_price',      label: 'App Studio — Pro',      icon: '📱', color: '#6366F1' },
   { key: 'whatsapp_monthly_price', label: 'WhatsApp Automation — Monthly', icon: '💬', color: '#25D366' },
   { key: 'whatsapp_annual_price',  label: 'WhatsApp Automation — Annual',  icon: '💬', color: '#25D366' },
 ];
@@ -51,6 +54,9 @@ export default function Pricing() {
     website_trial_price:    '',
     website_standard_price: '',
     website_pro_price:      '',
+    app_trial_price:        '',
+    app_standard_price:     '',
+    app_pro_price:          '',
     whatsapp_monthly_price: '',
     whatsapp_annual_price:  '',
   });

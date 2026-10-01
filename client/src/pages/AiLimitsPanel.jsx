@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../hooks/useAuth.jsx";
 
 const PLANS = [
-  
+  { key: "basic_images",    label: "Basic",    color: "#64748B", desc: "Basic subscribers (0 = no images)" },
   { key: "standard_images", label: "Standard", color: "#3B6CF4", desc: "Standard subscribers" },
   { key: "premium_images",  label: "Premium",  color: "#E8874A", desc: "Premium subscribers" },
 ];
@@ -16,7 +16,7 @@ const PLANS = [
 // session via apiFetch(), matching every other admin page.
 export default function AiLimitsPanel() {
   const { apiFetch } = useAuth();
-  const [limits,  setLimits]  = useState({ standard_images: 20, premium_images: 100 });
+  const [limits,  setLimits]  = useState({ basic_images: 0, standard_images: 20, premium_images: 100 });
   const [loading, setLoading] = useState(true);
   const [dirty,   setDirty]   = useState(false);
   const [saving,  setSaving]  = useState(false);
@@ -30,7 +30,7 @@ export default function AiLimitsPanel() {
   useEffect(() => {
     apiFetch("/api/images-limits")
       .then(r => r.json())
-      .then(d => { setLimits(d); setLoading(false); })
+      .then(d => { setLimits({ basic_images: 0, ...d }); setLoading(false); })
       .catch(() => setLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

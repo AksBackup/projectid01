@@ -19,6 +19,7 @@ router.get("/", async (req, res) => {
       .get();
 
     const defaults = {
+      basic_images: 0,
       standard_images: 20,
       premium_images: 100,
     };
@@ -48,6 +49,7 @@ router.post("/", async (req, res) => {
     const {
       premium_images,
       standard_images,
+      basic_images,
     } = req.body;
 
     await db
@@ -57,6 +59,8 @@ router.post("/", async (req, res) => {
         {
           premium_images,
           standard_images,
+          // 0 (or missing) = Basic can't generate images even if the screen is open to it.
+          basic_images: Number(basic_images) || 0,
           updatedAt: admin.firestore.FieldValue.serverTimestamp(),
         },
         { merge: true }

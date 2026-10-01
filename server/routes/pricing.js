@@ -24,6 +24,9 @@ const PRICE_KEYS = [
   'website_trial_price',
   'website_standard_price',
   'website_pro_price',
+  'app_trial_price',
+  'app_standard_price',
+  'app_pro_price',
   'whatsapp_monthly_price',
   'whatsapp_annual_price',
 ];

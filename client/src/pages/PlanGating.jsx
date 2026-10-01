@@ -24,6 +24,9 @@ const SCREENS = [
   // Intelligence
   { key: 'ai_chat',       label: 'AI Assistant',    cat: 'Intelligence',    icon: '🤖', desc: 'Smart AI-powered business insights' },
   { key: 'image_studio',  label: 'Image Studio',    cat: 'Intelligence',    icon: '🖼️', desc: 'AI image generation & editing' },
+  { key: 'website_studio', label: 'Website Studio', cat: 'Intelligence', icon: '🌐', desc: 'AI website builder' },
+  { key: 'app_studio',     label: 'App Studio',     cat: 'Intelligence', icon: '📱', desc: 'AI app builder (coming soon)' },
+  { key: 'whatsapp_automation', label: 'WhatsApp Automation', cat: 'Communication', icon: '💬', desc: 'Shared inbox, templates & campaigns' },
   { key: 'pdf_analyst',   label: 'PDF Analyst',     cat: 'Intelligence',    icon: '📄', desc: 'AI analysis of business PDFs' },
   // Analytics
   { key: 'reports',       label: 'Reports',         cat: 'Analytics',       icon: '📊', desc: 'Business performance reports' },
