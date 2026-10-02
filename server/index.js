@@ -22,6 +22,7 @@ const notificationRouter = require('./routes/notificationRoutes')(db, admin);
 const ailimitRouter     = require('./routes/ailimit');
 const aiModelRouter     = require('./routes/aiModel');
 const websiteTemplatesRouter = require('./routes/websiteTemplates');
+const appTemplatesRouter = require('./routes/appTemplates');
 const app  = express();
 const PORT = process.env.PORT || 5001;
 
@@ -48,6 +49,7 @@ app.use('/api/notifications', notificationRouter);
 app.use('/api/images-limits', ailimitRouter);
 app.use('/api/ai-models', aiModelRouter);
 app.use('/api/website-templates', websiteTemplatesRouter);
+app.use('/api/app-templates', appTemplatesRouter);
 app.get('/api/health', (_, res) =>
   res.json({ status: 'ok', service: 'astric-admin', time: new Date().toISOString() }));
 

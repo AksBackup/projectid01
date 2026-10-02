@@ -11,6 +11,7 @@ const NAV = [
   { to: '/banners',       icon: '▣',  label: 'Banners'       },
   { to: '/pricing',       icon: '₹',  label: 'Pricing'       },
   { to: '/website-templates', icon: '🌐', label: 'Website Studio' },
+  { to: '/app-templates', icon: '📱', label: 'App Studio' },
   { to: '/plan-gating',   icon: '🔐', label: 'Plan Gating'   },
   { to: '/notifications', icon: '🔔', label: 'Notifications' },
   { to: '/ai-limits',      icon: '', label: 'AI image Limit'      },

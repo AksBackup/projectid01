@@ -10,6 +10,7 @@ import Banners     from './pages/Banners.jsx';
 import PlanGating  from './pages/PlanGating.jsx';
 import Pricing       from './pages/Pricing.jsx';
 import WebsiteTemplates from './pages/WebsiteTemplates.jsx';
+import AppTemplates from './pages/AppTemplates.jsx';
 import Notifications from './pages/Notifications.jsx';
 import AiLimitsPanel from './pages/AiLimitsPanel.jsx';
 import AiModelsPanel from './pages/Aimodel.jsx';
@@ -41,6 +42,7 @@ function AppRoutes() {
         <Route path="plan-gating"   element={<PlanGating />}    />
         <Route path="pricing"       element={<Pricing />}       />
         <Route path="website-templates" element={<WebsiteTemplates />} />
+        <Route path="app-templates" element={<AppTemplates />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="ai-limits"      element={<AiLimitsPanel />} />
         <Route path="ai-models"     element={<AiModelsPanel />} />

@@ -1,0 +1,90 @@
+/* WebsiteTemplates.css - mirrors Banners.css's design tokens/patterns
+   (same --surface/--border/--gold vars, same .bl-item shape renamed to
+   .wl-item) so this page looks consistent with the rest of the admin
+   panel rather than introducing a new visual language. */
+
+.wt-layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.wt-left { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.wt-list-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 0.75rem;
+}
+
+.wt-list { display: flex; flex-direction: column; gap: 6px; }
+
+.wl-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color var(--transition), background var(--transition);
+}
+.wl-item:hover        { border-color: var(--border-gold); background: rgba(200,169,110,0.04); }
+.wl-item-dim           { opacity: 0.5; }
+.wl-item-editing       { border-color: var(--gold) !important; background: rgba(200,169,110,0.06) !important; }
+
+.wl-thumb {
+  width: 52px; height: 36px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-3); font-size: 1.1rem;
+}
+.wl-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.wl-info  { flex: 1; min-width: 0; }
+.wl-title { font-size: 0.875rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wl-meta  { display: flex; align-items: center; gap: 8px; margin-top: 2px; }
+.wl-order { font-size: 0.7rem; font-family: var(--mono); color: var(--text-3); }
+.wl-sub   { font-size: 0.72rem; color: var(--text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+
+.wl-controls { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+/* ── RIGHT — live card preview ────────────────────────── */
+.wt-right {
+  position: sticky;
+  top: 1.5rem;
+}
+.preview-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-3); }
+.preview-hint  { font-size: 0.72rem; color: var(--text-3); margin-bottom: 0.75rem; }
+
+.wtc-preview-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+.wtc-preview-img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: rgba(200,169,110,0.08);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.wtc-preview-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.wtc-no-img { font-size: 2rem; opacity: 0.5; }
+.wtc-preview-body { padding: 0.75rem; display: flex; flex-direction: column; gap: 6px; }
+.wtc-preview-title { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+.wtc-preview-desc  { font-size: 0.75rem; color: var(--text-3); line-height: 1.4; }
+
+@media (max-width: 900px) {
+  .wt-layout { grid-template-columns: 1fr; }
+  .wt-right { position: static; }
+}
