@@ -18,7 +18,26 @@ const PRICE_FIELDS = [
   { key: 'whatsapp_annual_price',  label: 'WhatsApp Automation — Annual',  icon: '💬', color: '#25D366' },
 ];
 
-function PriceInput({ field, value, onChange }) {
+// ── PayPal (USD) list — separate from the INR/Cashfree prices above.
+// Leave blank (or enter 0) to fall back to converting the INR price.
+const PAYPAL_FIELDS = [
+  { key: 'paypal_standard_monthly', label: 'Standard — Monthly',  icon: '◎', color: '#C8A96E' },
+  { key: 'paypal_standard_annual',  label: 'Standard — Annual',   icon: '◎', color: '#C8A96E' },
+  { key: 'paypal_premium_monthly',  label: 'Premium — Monthly',   icon: '★', color: '#BF5AF2' },
+  { key: 'paypal_premium_annual',   label: 'Premium — Annual',    icon: '★', color: '#BF5AF2' },
+  { key: 'paypal_token_pack_price', label: 'Token Pack — price per pack', icon: '⬡', color: '#0A84FF' },
+  { key: 'paypal_token_pack_size',  label: 'Token Pack — tokens per pack', icon: '⬡', color: '#0A84FF', integer: true },
+  { key: 'paypal_website_trial',    label: 'Website Studio — Trial',    icon: '🌐', color: '#10B981' },
+  { key: 'paypal_website_standard', label: 'Website Studio — Standard', icon: '🌐', color: '#10B981' },
+  { key: 'paypal_website_pro',      label: 'Website Studio — Pro',      icon: '🌐', color: '#10B981' },
+  { key: 'paypal_app_trial',    label: 'App Studio — Trial',    icon: '📱', color: '#6366F1' },
+  { key: 'paypal_app_standard', label: 'App Studio — Standard', icon: '📱', color: '#6366F1' },
+  { key: 'paypal_app_pro',      label: 'App Studio — Pro',      icon: '📱', color: '#6366F1' },
+  { key: 'paypal_whatsapp_monthly', label: 'WhatsApp Automation — Monthly', icon: '💬', color: '#25D366' },
+  { key: 'paypal_whatsapp_annual',  label: 'WhatsApp Automation — Annual',  icon: '💬', color: '#25D366' },
+];
+
+function PriceInput({ field, value, onChange, currency = '₹', unit = 'INR' }) {
   return (
     <div className="price-field">
       <div className="price-field-header">
@@ -26,17 +45,17 @@ function PriceInput({ field, value, onChange }) {
         <label className="price-field-label">{field.label}</label>
       </div>
       <div className="price-field-input-wrap">
-        <span className="price-field-currency">₹</span>
+        <span className="price-field-currency">{field.integer ? '#' : currency}</span>
         <input
           type="number"
           className="input price-input"
           value={value}
           onChange={e => onChange(field.key, e.target.value)}
           min="0"
-          step="1"
+          step={currency === '$' && !field.integer ? '0.01' : '1'}
           placeholder="0"
         />
-        <span className="price-field-unit">INR</span>
+        <span className="price-field-unit">{field.integer ? 'tokens' : unit}</span>
       </div>
     </div>
   );
@@ -59,6 +78,7 @@ export default function Pricing() {
     app_pro_price:          '',
     whatsapp_monthly_price: '',
     whatsapp_annual_price:  '',
+    ...Object.fromEntries(PAYPAL_FIELDS.map(f => [f.key, ''])),
   });
   // WhatsApp backend URL is a string, not a price — kept separate from
   // `prices` so it doesn't go through the Number() validation in handleSave.
@@ -159,6 +179,27 @@ export default function Pricing() {
             ))}
           </div>
 
+          <div className="pricing-section-head">
+            <h2 className="pricing-section-title">PayPal prices (USD)</h2>
+            <p className="pricing-section-sub">
+              Used only for PayPal checkout. Each PayPal price must be at least $1.00.
+              Leave blank or enter 0 to convert the INR price automatically.
+              Example: price per pack <b>5</b> and tokens per pack <b>500</b> = $5 for 500 tokens.
+            </p>
+          </div>
+          <div className="pricing-grid">
+            {PAYPAL_FIELDS.map(field => (
+              <PriceInput
+                key={field.key}
+                field={field}
+                value={prices[field.key]}
+                onChange={handleChange}
+                currency="$"
+                unit="USD"
+              />
+            ))}
+          </div>
+
           <div className="price-field" style={{ marginTop: 16 }}>
             <div className="price-field-header">
               <span className="price-field-icon" style={{ color: '#25D366' }}>💬</span>
@@ -188,7 +229,7 @@ export default function Pricing() {
               onClick={handleSave}
               disabled={saving}
             >
-              {saving ? <><span className="spinner spinner-sm" /> Saving…</> : '↑ Push to Cashfree Server'}
+              {saving ? <><span className="spinner spinner-sm" /> Saving…</> : '↑ Push to Payment Server'}
             </button>
           </div>
 
@@ -206,6 +247,10 @@ export default function Pricing() {
               <div className="info-row">
                 <span className="info-icon" style={{ color: '#0A84FF' }}>⬡</span>
                 <span>Token pack price is used for add-on token purchases. Leave a field blank to skip updating it.</span>
+              </div>
+              <div className="info-row">
+                <span className="info-icon" style={{ color: '#0070BA' }}>$</span>
+                <span>PayPal has its own USD price list and its own token count per pack. Cashfree keeps using the INR prices and the standard pack size.</span>
               </div>
               <div className="info-row">
                 <span className="info-icon" style={{ color: '#25D366' }}>💬</span>
