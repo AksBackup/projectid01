@@ -18,26 +18,23 @@ const PRICE_FIELDS = [
   { key: 'whatsapp_annual_price',  label: 'WhatsApp Automation — Annual',  icon: '💬', color: '#25D366' },
 ];
 
-// ── PayPal (USD) list — separate from the INR/Cashfree prices above.
-// Leave blank (or enter 0) to fall back to converting the INR price.
-const PAYPAL_FIELDS = [
-  { key: 'paypal_standard_monthly', label: 'Standard — Monthly',  icon: '◎', color: '#C8A96E' },
-  { key: 'paypal_standard_annual',  label: 'Standard — Annual',   icon: '◎', color: '#C8A96E' },
-  { key: 'paypal_premium_monthly',  label: 'Premium — Monthly',   icon: '★', color: '#BF5AF2' },
-  { key: 'paypal_premium_annual',   label: 'Premium — Annual',    icon: '★', color: '#BF5AF2' },
-  { key: 'paypal_token_pack_price', label: 'Token Pack — price per pack', icon: '⬡', color: '#0A84FF' },
-  { key: 'paypal_token_pack_size',  label: 'Token Pack — tokens per pack', icon: '⬡', color: '#0A84FF', integer: true },
-  { key: 'paypal_website_trial',    label: 'Website Studio — Trial',    icon: '🌐', color: '#10B981' },
-  { key: 'paypal_website_standard', label: 'Website Studio — Standard', icon: '🌐', color: '#10B981' },
-  { key: 'paypal_website_pro',      label: 'Website Studio — Pro',      icon: '🌐', color: '#10B981' },
-  { key: 'paypal_app_trial',    label: 'App Studio — Trial',    icon: '📱', color: '#6366F1' },
-  { key: 'paypal_app_standard', label: 'App Studio — Standard', icon: '📱', color: '#6366F1' },
-  { key: 'paypal_app_pro',      label: 'App Studio — Pro',      icon: '📱', color: '#6366F1' },
-  { key: 'paypal_whatsapp_monthly', label: 'WhatsApp Automation — Monthly', icon: '💬', color: '#25D366' },
-  { key: 'paypal_whatsapp_annual',  label: 'WhatsApp Automation — Annual',  icon: '💬', color: '#25D366' },
+// Astric Voice (AI calling) — prepaid minutes. Same save flow as the prices
+// above; `prefix`/`unit`/`step` override the ₹ / INR / whole-number defaults.
+const VOICE_FIELDS = [
+  { key: 'voice_trial_price',   label: 'Voice — Trial price',            icon: '📞', color: '#6366F1' },
+  { key: 'voice_trial_minutes', label: 'Voice — Trial minutes',          icon: '📞', color: '#6366F1', prefix: '', unit: 'min' },
+  { key: 'voice_pack_price',    label: 'Voice — Pack price',             icon: '📞', color: '#6366F1' },
+  { key: 'voice_pack_minutes',  label: 'Voice — Pack minutes',           icon: '📞', color: '#6366F1', prefix: '', unit: 'min' },
+  { key: 'voice_rate_per_min',  label: 'Voice — Pay-as-you-go rate (blank/0 = off)', icon: '📞', color: '#6366F1', unit: 'INR / min', step: '0.01' },
+  { key: 'voice_min_recharge',  label: 'Voice — Pay-as-you-go minimum recharge', icon: '📞', color: '#6366F1' },
+  { key: 'voice_trial_once',    label: 'Voice — Trial once per account (1 = yes, 0 = no)', icon: '📞', color: '#6366F1', prefix: '', unit: '0 / 1' },
+  { key: 'paypal_voice_trial',  label: 'Voice (PayPal) — Trial price',   icon: '📞', color: '#0070BA', prefix: '$', unit: 'USD', step: '0.01' },
+  { key: 'paypal_voice_pack',   label: 'Voice (PayPal) — Pack price',    icon: '📞', color: '#0070BA', prefix: '$', unit: 'USD', step: '0.01' },
+  { key: 'paypal_voice_rate_per_min',  label: 'Voice (PayPal) — Rate per minute', icon: '📞', color: '#0070BA', prefix: '$', unit: 'USD / min', step: '0.001' },
+  { key: 'paypal_voice_min_recharge',  label: 'Voice (PayPal) — Minimum recharge', icon: '📞', color: '#0070BA', prefix: '$', unit: 'USD', step: '0.01' },
 ];
 
-function PriceInput({ field, value, onChange, currency = '₹', unit = 'INR' }) {
+function PriceInput({ field, value, onChange }) {
   return (
     <div className="price-field">
       <div className="price-field-header">
@@ -45,17 +42,17 @@ function PriceInput({ field, value, onChange, currency = '₹', unit = 'INR' }) 
         <label className="price-field-label">{field.label}</label>
       </div>
       <div className="price-field-input-wrap">
-        <span className="price-field-currency">{field.integer ? '#' : currency}</span>
+        <span className="price-field-currency">{field.prefix ?? '₹'}</span>
         <input
           type="number"
           className="input price-input"
           value={value}
           onChange={e => onChange(field.key, e.target.value)}
           min="0"
-          step={currency === '$' && !field.integer ? '0.01' : '1'}
+          step={field.step ?? '1'}
           placeholder="0"
         />
-        <span className="price-field-unit">{field.integer ? 'tokens' : unit}</span>
+        <span className="price-field-unit">{field.unit ?? 'INR'}</span>
       </div>
     </div>
   );
@@ -78,11 +75,14 @@ export default function Pricing() {
     app_pro_price:          '',
     whatsapp_monthly_price: '',
     whatsapp_annual_price:  '',
-    ...Object.fromEntries(PAYPAL_FIELDS.map(f => [f.key, ''])),
+    voice_trial_price: '', voice_trial_minutes: '', voice_pack_price: '', voice_pack_minutes: '',
+    voice_rate_per_min: '', voice_min_recharge: '', voice_trial_once: '',
+    paypal_voice_trial: '', paypal_voice_pack: '', paypal_voice_rate_per_min: '', paypal_voice_min_recharge: '',
   });
   // WhatsApp backend URL is a string, not a price — kept separate from
   // `prices` so it doesn't go through the Number() validation in handleSave.
   const [whatsappApiBaseUrl, setWhatsappApiBaseUrl] = useState('');
+  const [voiceApiBaseUrl, setVoiceApiBaseUrl] = useState('');
   const [loading,  setLoading]  = useState(true);
   const [saving,   setSaving]   = useState(false);
   const [status,   setStatus]   = useState(null); // { type: 'success'|'error', msg }
@@ -96,6 +96,7 @@ export default function Pricing() {
         if (res.ok && data.prices) {
           setPrices(prev => ({ ...prev, ...data.prices }));
           if (data.prices.whatsapp_api_base_url) setWhatsappApiBaseUrl(data.prices.whatsapp_api_base_url);
+          if (data.prices.voice_api_base_url) setVoiceApiBaseUrl(data.prices.voice_api_base_url);
         }
       } catch (e) {
         console.error('Failed to load pricing:', e);
@@ -129,6 +130,14 @@ export default function Pricing() {
       }
       if (whatsappApiBaseUrl.trim() !== '') {
         payload.whatsapp_api_base_url = whatsappApiBaseUrl.trim();
+      }
+      if (voiceApiBaseUrl.trim() !== '') {
+        payload.voice_api_base_url = voiceApiBaseUrl.trim();
+      }
+      if (payload.voice_trial_once !== undefined && ![0, 1].includes(payload.voice_trial_once)) {
+        setStatus({ type: 'error', msg: 'Voice — Trial once per account must be 1 or 0.' });
+        setSaving(false);
+        return;
       }
 
       if (Object.keys(payload).length === 0) {
@@ -179,25 +188,33 @@ export default function Pricing() {
             ))}
           </div>
 
-          <div className="pricing-section-head">
-            <h2 className="pricing-section-title">PayPal prices (USD)</h2>
-            <p className="pricing-section-sub">
-              Used only for PayPal checkout. Each PayPal price must be at least $1.00.
-              Leave blank or enter 0 to convert the INR price automatically.
-              Example: price per pack <b>5</b> and tokens per pack <b>500</b> = $5 for 500 tokens.
-            </p>
-          </div>
+          <h3 style={{ margin: '28px 0 12px' }}>Astric Voice — AI calling minutes</h3>
           <div className="pricing-grid">
-            {PAYPAL_FIELDS.map(field => (
+            {VOICE_FIELDS.map(field => (
               <PriceInput
                 key={field.key}
                 field={field}
                 value={prices[field.key]}
                 onChange={handleChange}
-                currency="$"
-                unit="USD"
               />
             ))}
+          </div>
+
+          <div className="price-field" style={{ marginTop: 16 }}>
+            <div className="price-field-header">
+              <span className="price-field-icon" style={{ color: '#6366F1' }}>📞</span>
+              <label className="price-field-label">Astric Voice — Backend URL</label>
+            </div>
+            <div className="price-field-input-wrap">
+              <input
+                type="text"
+                className="input"
+                value={voiceApiBaseUrl}
+                onChange={e => { setVoiceApiBaseUrl(e.target.value); setStatus(null); }}
+                placeholder="https://your-voice-backend-domain.com"
+                style={{ width: '100%' }}
+              />
+            </div>
           </div>
 
           <div className="price-field" style={{ marginTop: 16 }}>
@@ -229,7 +246,7 @@ export default function Pricing() {
               onClick={handleSave}
               disabled={saving}
             >
-              {saving ? <><span className="spinner spinner-sm" /> Saving…</> : '↑ Push to Payment Server'}
+              {saving ? <><span className="spinner spinner-sm" /> Saving…</> : '↑ Push to Cashfree Server'}
             </button>
           </div>
 
@@ -249,12 +266,12 @@ export default function Pricing() {
                 <span>Token pack price is used for add-on token purchases. Leave a field blank to skip updating it.</span>
               </div>
               <div className="info-row">
-                <span className="info-icon" style={{ color: '#0070BA' }}>$</span>
-                <span>PayPal has its own USD price list and its own token count per pack. Cashfree keeps using the INR prices and the standard pack size.</span>
-              </div>
-              <div className="info-row">
                 <span className="info-icon" style={{ color: '#25D366' }}>💬</span>
                 <span>The WhatsApp backend URL points the app at your deployed PHP WhatsApp service — change it here any time it moves, no app update needed.</span>
+              </div>
+              <div className="info-row">
+                <span className="info-icon" style={{ color: '#6366F1' }}>📞</span>
+                <span>Voice minutes: trial and pack have fixed prices and minutes; pay-as-you-go gives floor(amount ÷ rate) minutes and stays off until you set a rate. Keep the rate above your carrier + AI cost per minute (about ₹3.13). The Voice backend URL is the https address of the Astric Voice server.</span>
               </div>
             </div>
           </div>
